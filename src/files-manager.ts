@@ -130,11 +130,13 @@ export class FileManager {
         result.INLINE_REGEXP = this.data.INLINE_REGEXP
         result.EMPTY_REGEXP = this.data.EMPTY_REGEXP
         if (this.data.folder_as_deck == true) {
-            result.template.deckName = file.path.slice(0, -3).split("/").join("::")
+            result.template.deckName = file.path.slice(0, -3).split("/").join("::").replace(" ", "_")
+            result.template.tags = [];
         } else {
             result.template.deckName = this.getDefaultDeck(file, folder_path_list)
+            result.template.tags = [file.path.slice(0, -3).split("/").join("::").replace(" ", "_")]
         }
-        result.template.tags = this.getTags(file, cache, folder_path_list)
+        result.template.tags.push(...this.getTags(file, cache, folder_path_list))
         return result
     }
 
